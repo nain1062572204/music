@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.music.mapper.SingleMapper">
+<!--根据歌单查询单曲-->
+    <select id="querySingleByPlaylistId" parameterType="int" resultMap="single_map">
+        select * from tb_single_playlist,tb_single
+        where tb_single_playlist.singleId=tb_single.singleId
+        and playlistId=#{playlistId}
+    </select>
+    <resultMap id="single_map" type="single">
+        <id property="singleId" column="singleId"/>
+        <result property="singleName" column="singleName" />
+        <result property="singer" column="singer"/>
+        <result property="url" column="url"/>
+        <association property="album" javaType="album"
+            select="com.wang.music.mapper.AlbumMapper.queryAlbumBySingleId" column="singleId"
+        />
+    </resultMap>
+
+</mapper>

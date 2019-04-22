@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.music.mapper.PlaylistMapper">
+    <!--添加一个歌单-->
+    <insert id="addPlaylist" parameterType="playlist">
+        INSERT INTO tb_playlist(playlistName,userId,intorduct,cover,classify) VALUES
+        (#{playlistName},#{user.userId},#{intorduct},#{cover},#{classify,typeHandler=com.wang.music.typeHandler.ClassifyTypeHandler});
+    </insert>
+    <!--查询所有歌单-->
+    <select id="queryAllPlayList" resultMap="playlist_map">
+        select * from tb_playlist
+    </select>
+    <resultMap id="playlist_map" type="playlist">
+        <id property="playlistId" column="playlistId"/>
+        <result property="playlistName" column="playlistName"/>
+        <result property="intorduct" column="intorduct"/>
+        <result property="cover" column="cover"/>
+        <result property="classify" column="classify" typeHandler="com.wang.music.typeHandler.ClassifyTypeHandler"/>
+        <result property="createTime" column="createTime"/>
+        <result property="playNumber" column="playNumber"/>
+        <association property="user" javaType="user"
+                     select="com.wang.music.mapper.UserMapper.queryUserByUserId" column="userId"/>
+        <collection property="singles" ofType="single"
+                    select="com.wang.music.mapper.SingleMapper.querySingleByPlaylistId" column="playlistId"/>
+    </resultMap>
+</mapper>

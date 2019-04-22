@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.music.mapper.AlbumMapper">
+    <!--根据单曲查专辑-->
+    <select id="queryAlbumBySingleId" resultType="album" parameterType="int">
+      select * from  tb_album,tb_single
+      where tb_single.albumId=tb_album.albumId
+      and tb_single.singleId=#{singleId}
+    </select>
+</mapper>
